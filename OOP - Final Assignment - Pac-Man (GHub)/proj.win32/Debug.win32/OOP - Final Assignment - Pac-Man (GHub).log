@@ -1,0 +1,14 @@
+﻿  AppDelegate.cpp
+  HelloWorldScene.cpp
+  main.cpp
+AppDelegate.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+     Creating library C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\proj.win32\Debug.win32\OOP - Final Assignment - Pac-Man (GHub).lib and object C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\proj.win32\Debug.win32\OOP - Final Assignment - Pac-Man (GHub).exp
+  OOP - Final Assignment - Pac-Man (GHub).vcxproj -> C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\proj.win32\Debug.win32\OOP - Final Assignment - Pac-Man (GHub).exe
+  Performing Custom Build Step
+  C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\Resources\CloseNormal.png -> C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\proj.win32\Debug.win32\Resources\CloseNormal.png
+  C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\Resources\CloseSelected.png -> C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\proj.win32\Debug.win32\Resources\CloseSelected.png
+  C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\Resources\HelloWorld.png -> C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\proj.win32\Debug.win32\Resources\HelloWorld.png
+  C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\Resources\fonts\arial.ttf -> C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\proj.win32\Debug.win32\Resources\fonts\arial.ttf
+  C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\Resources\fonts\Marker Felt.ttf -> C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\proj.win32\Debug.win32\Resources\fonts\Marker Felt.ttf
+  C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\Resources\res\.gitkeep -> C:\Users\100701758\Desktop\OOP - Final Assignment - Pac-Man (GHub)\proj.win32\Debug.win32\Resources\res\.gitkeep
+  6 File(s) copied
