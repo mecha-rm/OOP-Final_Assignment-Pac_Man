@@ -1,0 +1,26 @@
+*.json
+
+GDW_2 - Ampersand V - Mashadeau/CMakeLists\.txt
+
+GDW_2 - Ampersand V - Mashadeau/proj\.win32/res/
+
+*.user
+
+GDW_2 - Ampersand V - Mashadeau/proj\.win32/GDW_2 - Ampersand V - Mashadeau\.vcxproj\.filters
+
+GDW_2 - Ampersand V - Mashadeau/proj\.win32/GDW_2 - Ampersand V - Mashadeau\.vcxproj
+
+GDW_2 - Ampersand V - Mashadeau/proj\.win32/GDW_2 - Ampersand V - Mashadeau\.sln
+
+GDW_2 - Ampersand V - Mashadeau/proj\.win32/game\.rc
+
+*.vcxproj
+
+GDW_2 - Ampersand V - Mashadeau/proj\.win32/\.vs/
+
+GDW_2 - Ampersand V - Mashadeau/proj\.win32/Debug\.win32/
+GDW_2 - Ampersand V - Mashadeau \(GHub\)/proj\.win32/\.vs/
+
+GDW_2 - Ampersand V - Mashadeau \(GHub\)/proj\.win32/Debug\.win32/
+
+*.filters
