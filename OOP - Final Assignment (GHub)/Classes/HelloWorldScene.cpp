@@ -1,3 +1,17 @@
+/*
+* Project: Object Oriented Programming - Final Project - PAC-MAN
+* Date: 03/16/2019
+
+* Group Members: Assignment Group 6
+	- Caleb Birnie (100699828)
+	- Nathan Tuck (100708651)
+	- Roderick “R.J.” Montague (100701758)
+	- Ryan Burton (100707511)
+	- Tavis East (100702011)
+
+* Description: a default file for the HelloWorldScene. This shouldn't be used in the final game.
+*/
+
 /****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
