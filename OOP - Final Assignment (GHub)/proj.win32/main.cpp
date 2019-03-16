@@ -1,3 +1,17 @@
+/*
+* Project: Object Oriented Programming - Final Project - PAC-MAN
+* Date: 03/16/2019
+
+* Group Members: Assignment Group 6
+	- Caleb Birnie (100699828)
+	- Nathan Tuck (100708651)
+	- Roderick “R.J.” Montague (100701758)
+	- Ryan Burton (100707511)
+	- Tavis East (100702011)
+
+* Description: the main source file.
+*/
+
 /****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
  
@@ -26,6 +40,9 @@
 #include "AppDelegate.h"
 #include "cocos2d.h"
 
+#include <random>
+#include <time.h>
+
 USING_NS_CC;
 
 int WINAPI _tWinMain(HINSTANCE hInstance,
@@ -35,6 +52,10 @@ int WINAPI _tWinMain(HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+
+	srand(time(0));
+	AllocConsole(); // creates a text console for debugging
+	freopen("CONOUT$", "w", stdout); // allows cout
 
     // create the application instance
     AppDelegate app;
