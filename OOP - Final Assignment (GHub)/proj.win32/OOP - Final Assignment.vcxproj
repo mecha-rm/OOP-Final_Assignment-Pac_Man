@@ -152,11 +152,19 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\KeyboardListener.cpp" />
+    <ClCompile Include="..\Classes\MouseListener.cpp" />
+    <ClCompile Include="..\Classes\PMG_GameplayScene.cpp" />
+    <ClCompile Include="..\Classes\PMG_MenuScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\KeyboardListener.h" />
+    <ClInclude Include="..\Classes\MouseListener.h" />
+    <ClInclude Include="..\Classes\PMG_GameplayScene.h" />
+    <ClInclude Include="..\Classes\PMG_MenuScene.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

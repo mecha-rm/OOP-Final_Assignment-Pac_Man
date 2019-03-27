@@ -38,7 +38,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-
+#include "PMG_GameplayScene.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -133,6 +133,8 @@ bool HelloWorld::init()
 }
 
 
+
+
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
@@ -145,3 +147,4 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
 
 }
+
