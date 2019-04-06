@@ -1,5 +1,7 @@
 #include "PMG_GameplayScene.h"
 
+#include <iomanip>
+
 
 
 PMG_GameplayScene::PMG_GameplayScene() : keyboard(OOP::KeyboardListener(this)) {}
@@ -41,6 +43,15 @@ void PMG_GameplayScene::initSprites()
 	gamePane = DrawNode::create();
 	this->addChild(gamePane); // adds the gameplay section to the scene
 
+	infoPane = DrawNode::create();
+	// infoPane->setPositionX(500.0F);
+	this->addChild(infoPane);
+
+
+	scoreLabel = Label::create("00000000000", "fonts/Marker Felt.ttf", 40.0F);
+	scoreLabel->setPosition(Vec2(1000.0F, 600.0F));
+	infoPane->addChild(scoreLabel);
+
 	// creating the area
 	maze = new Maze(0); // creating the maze
 	
@@ -51,6 +62,11 @@ void PMG_GameplayScene::initSprites()
 		if (gameObjects.at(i)->getCollisionBody() != nullptr)
 			gameObjects.at(i)->getCollisionBody()->setVisible(entity::Entity::shapesVisible);
 
+		if (gameObjects.at(i)->getTag() == entity::etag::enemy)
+		{
+			enemies.push_back((entity::Enemy * )gameObjects.at(i)); // downcasts and adds the enemy to an enemy specific vector
+		}
+
 		gamePane->addChild(gameObjects.at(i)->getSprite()); // gets the sprite, and adds it to the draw pane.
 	}
 
@@ -58,12 +74,14 @@ void PMG_GameplayScene::initSprites()
 	// creating the player.
 	plyr = new entity::Player();
 	plyr->getCollisionBody()->setVisible(entity::Entity::shapesVisible);
-	plyr->setPosition(maze->getPlayerSpawn()); // gets the spawn point of the player in the maze.
+	plyr->setSpawnPosition(maze->getPlayerSpawn()); // gets the spawn point of the player in the maze.
+	plyr->setPosition(maze->getPlayerSpawn()); 
+	
 	plyr->setPosition(500.0F, 500.0F); // comment out later
 	gamePane->addChild(plyr->getSprite());
 
 
-
+	entity::Entity::winSize = director->getWinSizeInPixels(); // saves the window size
 }
 
 // key has been pressed.
@@ -183,17 +201,68 @@ void PMG_GameplayScene::playerCollisions()
 			}
 			else if (gameObjects[i]->getTag() == entity::etag::pacdot) // if it's a pac-dot, the player's score should increase.
 			{
-
+				plyr->addPoints(gameObjects[i]->getPoints());
+				removeEntity(gameObjects[i], gameObjects);
+			
+			}
+			else if (gameObjects[i]->getTag() == entity::etag::enemy) // the ghost
+			{
+				plyr->kill(); // makes the player lose a life.
 			}
 		}
 	}
 }
 
+// collisions between the enemies and the tiles
+void PMG_GameplayScene::enemyCollisions()
+{
+	Size proximity(Maze::SQUARE_SIZE * 2, Maze::SQUARE_SIZE * 2); // gets the proximity the object must be in for collision
+
+	for each(entity::Enemy * ghost in enemies)
+	{
+		for (int i = 0; i < gameObjects.size(); i++)
+		{
+			if (ghost == gameObjects.at(i) || gameObjects.at(i)->getTag() == entity::enemy) // if the enemy has encountered another enemy
+				continue;
+			
+			// if the entity is not within the check range, then they are skipped over.
+			if (abs(gameObjects[i]->getPositionX() - ghost->getPositionX()) > proximity.width && abs(gameObjects[i]->getPositionY() - ghost->getPositionY()) > proximity.height)
+				continue;
+			
+
+		}
+	}
+}
+
+// removes an entity from the game
+void PMG_GameplayScene::removeEntity(entity::Entity * ety, std::vector<entity::Entity *> & vector)
+{
+	ety->getSprite()->removeAllChildren(); // removes the children added to the sprite
+	ety->getSprite()->removeFromParent(); // removes the sprite from its parent.
+	
+	// removes the entity from the vector.
+	ustd::removeFromVector(vector, ety);
+}
+
+
 void PMG_GameplayScene::update(float deltaTime)
 {
+	std::string curScore = "";
+
 	timer += deltaTime;
 
 	plyr->update(deltaTime);
 
+	entity::Enemy::playerPos = plyr->getPosition(); // informs the enemies of the player's position.
+
+	for (entity::Entity * gObj : gameObjects) // updates the game objects
+		gObj->update(deltaTime);
+
+	curScore = std::to_string(plyr->getScore()); // setting the new score (as a string) 
+	curScore = std::string(((signed)SCORE_DIGITS - curScore.length() > 0) ? (signed)SCORE_DIGITS - curScore.length() : 0, '0') + curScore;
+
+	scoreLabel->setString(curScore);
+
 	playerCollisions();
 }
+

@@ -2,6 +2,7 @@
 #include "Utilities.h"
 
 bool entity::Entity::shapesVisible = false; // change this to 'false' to hide all collision shapes from view.
+Size entity::Entity::winSize = Size::ZERO; // the size of the window
 
 entity::Entity::Entity(etag tag, std::string texture, float globalZOrder) : sprite(Sprite::create())
 {
@@ -96,6 +97,20 @@ void entity::Entity::setPositionY(float y) { setPosition(sprite->getPositionX(),
 
 // gets the sprite's y position.
 float entity::Entity::getPositionY() const { return sprite->getPositionY(); }
+
+// gets the spawn position of the entity.
+Vec2 entity::Entity::getSpawnPosition() { return spawnPos; }
+
+// sets the spawn position of the entity
+void entity::Entity::setSpawnPosition(Vec2 spawn) { spawnPos = spawn; }
+
+// called ot make the entity go back to the spawn position.
+void entity::Entity::returnToSpawnPosition()
+{
+	setPosition(spawnPos);
+}
+
+
 
 // sets the opacity of the sprite via a percentage.
 void entity::Entity::setOpacity(float opacity)
@@ -315,8 +330,19 @@ void entity::Entity::stopForceY()
 	moveDown = false;
 }
 
+// gets hte speed of the entity.
+float entity::Entity::getSpeed() { return speed; }
+
 // setting the speed of the entity. If a speed less than 0.0F, then it's set to 1.
 void entity::Entity::setSpeed(float speed) { this->speed = (speed > 0.0F) ? speed : 1.0F; }
+
+// gets the points given for this dot.
+unsigned int entity::Entity::getPoints() { return points; }
+
+// sets the amount of points the entity gives.
+void entity::Entity::setPoints(unsigned int points) { this->points = points; }
+
+
 
 // sets the collision body of the entity.
 void entity::Entity::setCollisionBody(OOP::PrimitiveSquare * newColBody)
@@ -463,6 +489,26 @@ void entity::Entity::update(float deltaTime)
 	position += acceleration * speed * deltaTime; // increase the position by the provided velocity.
 
 	setPosition(position); // sets the entity's new position
+
+	// screen wrapping (x-axis)
+	if (getPositionX() < 0.0F - colBody->m_WIDTH / 2.0F) // if the entity has left the window from the left side, they respawn on the right.
+	{
+		setPositionX(winSize.width + colBody->m_WIDTH / 2.0F);
+	}
+	else if (getPositionX() > winSize.width + colBody->m_WIDTH / 2.0F) // leaving the screen from the right.Reappears on the left.
+	{
+		setPositionX(0.0F - colBody->m_WIDTH / 2.0F);
+	}
+
+	// screen wrapping (y-axis)
+	if (getPositionY() < 0.0F - colBody->m_HEIGHT / 2.0F) // if the entity has left the window from the left side, they respawn on the right.
+	{
+		setPositionY(winSize.height + colBody->m_HEIGHT / 2.0F);
+	}
+	else if (getPositionY() > winSize.height + colBody->m_HEIGHT / 2.0F) // leaving the screen from the right.Reappears on the left.
+	{
+		setPositionY(0.0F - colBody->m_HEIGHT / 2.0F);
+	}
 
 	// if there is an animation being run, then the update loop is called.
 	if (currentAnimation != nullptr)

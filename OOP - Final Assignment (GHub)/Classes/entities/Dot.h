@@ -16,6 +16,7 @@ namespace entity
 		void update(float deltaTime);
 
 	private:
+		unsigned int points;
 
 	protected:
 		// a protected constructor to be used exclusively by the pellet to set its proper tag

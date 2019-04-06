@@ -80,6 +80,13 @@ namespace entity
 		// Getting the sprite's y position.
 		float getPositionY() const;
 
+		// gets the spawn point of the entity.
+		Vec2 getSpawnPosition();
+
+		// sets the spawn position
+		void setSpawnPosition(Vec2 spawn);
+
+
 		// Sets the sprite's opacity via a percentage. Use a value from 0.0 to 1.0, with 1.0 (i.e. 100%) being full opacity.
 		// Opacity for sprites are out of 255, but this function works on percentages.
 		void setOpacity(float opacity);
@@ -179,6 +186,15 @@ namespace entity
 		// zeroes out the entity's velocity on the y-axis.
 		void stopForceY();
 
+		// gets the speed of the entity.
+		float getSpeed();
+
+
+		// gets the points given for this entity.
+		unsigned int getPoints();
+
+		// sets the amount of points the entity gives.
+		void setPoints(unsigned int points);
 
 		// gets the primitive square, which is sued for collisions. This is offset so that it's relative to where it is in the whole world.
 		OOP::PrimitiveSquare * getCollisionBody() const;
@@ -237,15 +253,23 @@ namespace entity
 		bool moveLeft = false; // moves the entity left.
 		bool moveRight = false; // moves the entity right.
 
+		// the window size of the game pane.
+		static Size winSize;
+
+		// saves the position of the entity within the maze, which is its spawnning position.
+		Vec2 spawnPos;
+
 	private:
 		// the image path of the entity. Can be used to create another texture.
 		std::string imagePath = "";
-
 		
 		float mass = 1.0; // the mass of the entity
 		float magnitude = 0.0F; // the magnitude of the movement, i.e. how much the entity moves.
 		float speed = 1.0F; // the speed of the entity
 		
+		// the amount of points provided by the entity.
+		unsigned int points = 0;
+
 		float age = 0; // gets the length of time the entity has existed for, in milliseconds (delta time)
 
 		
@@ -295,15 +319,14 @@ namespace entity
 		void setCollisionBody(OOP::PrimitiveSquare * newBody);
 
 		Sprite * sprite; // the entity's sprite
-		Rect frameSize = Rect(0.0F, 0.0F, 128.0F, 128.0F); // the size of an individual frame of the sprite.
+		Rect frameSize = Rect(0.0F, 0.0F, 32.0F, 32.0F); // the size of an individual frame of the sprite.
 
 		std::vector<OOP::SpriteSheetAnimation *> animations; // a vector of animations.
 
 		OOP::SpriteSheetAnimation * currentAnimation = nullptr; // saves a pointer to the current animation being run.
 
 		// the collision body for the
-		OOP::PrimitiveSquare * colBody;
-
+		OOP::PrimitiveSquare * colBody = nullptr;
 	};
 }
 
