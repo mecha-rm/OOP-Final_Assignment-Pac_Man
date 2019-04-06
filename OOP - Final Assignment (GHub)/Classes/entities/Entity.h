@@ -150,6 +150,7 @@ namespace entity
 
 		/*
 		 * sets the direction the entitiy is going. Each entity can only go in one direction at a time.
+		 * if 'oneDirec' is 'true', then movement in all other directions is stopped.
 			* (0) = no direction; all movements are set to 'false'
 				* this is the default if no valid number is given.
 			* (1) = up
@@ -157,7 +158,7 @@ namespace entity
 			* (3) = left
 			* (4) = right
 		*/
-		void setDirection(unsigned int direc);
+		void setDirection(unsigned int direc, bool oneDirec = true);
 
 		// gets the current kind of force applied to the entity.
 		// one of these values will always be 0.

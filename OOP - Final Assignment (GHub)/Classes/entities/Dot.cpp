@@ -7,7 +7,10 @@ entity::Dot::Dot() : Dot(entity::etag::pacdot) {}
 // protected constructor, exclusively for the Pellet class.
 entity::Dot::Dot(entity::etag tag) : entity::Entity(tag, "images/dot.png", 2.0F)
 {
-	setTextureRect(Rect(0.0F, 0.0F, 32.0F, 32.0F)); // shares image file with power pellet
+	frameSize = Rect(0.0F, 0.0F, frameSize.getMaxX(), frameSize.getMaxY());
+	setTextureRect(frameSize); // shares image file with power pellet
+
+	setCollisionBody(new OOP::PrimitiveSquare(Vec2(32.0F / 2.0F, 32.0F / 2.0F), 32.0F)); // hitbox
 }
 
 entity::Dot::~Dot()
@@ -23,7 +26,8 @@ void entity::Dot::update(float deltaTime)
 // constructor
 entity::Pellet::Pellet() : Dot(etag::powerpellet)
 {
-	setTextureRect(Rect(32.0F, 0.0F, 32.0F, 32.0F)); // shares image file with pacdot
+	// frame size set in parent constructor
+	setTextureRect(Rect(0.0F + frameSize.getMaxX(), 0.0F, frameSize.getMaxX(), frameSize.getMaxY())); // shares image file with pacdot
 }
 
 entity::Pellet::~Pellet() {}

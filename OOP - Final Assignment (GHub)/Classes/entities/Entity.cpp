@@ -243,13 +243,16 @@ unsigned int entity::Entity::getDirection() const
 
 // sets the direction of the entity.
 // 0 = no direction, 1= up, 2 = down, 3 = left, 4 = right
-void entity::Entity::setDirection(unsigned int direc)
+void entity::Entity::setDirection(unsigned int direc, bool oneDirec)
 {
 	// disables all directions first
-	moveUp = false;
-	moveDown = false;
-	moveLeft = false;
-	moveRight = false;
+	if (oneDirec)
+	{
+		moveUp = false;
+		moveDown = false;
+		moveLeft = false;
+		moveRight = false;
+	}
 
 	switch (direc) // sets player direction.
 	{

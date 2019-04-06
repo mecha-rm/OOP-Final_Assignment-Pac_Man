@@ -180,6 +180,9 @@ void PMG_GameplayScene::playerCollisions()
 				}
 
 				// plyr->setDirection(0);
+			}
+			else if (gameObjects[i]->getTag() == entity::etag::pacdot) // if it's a pac-dot, the player's score should increase.
+			{
 
 			}
 		}
