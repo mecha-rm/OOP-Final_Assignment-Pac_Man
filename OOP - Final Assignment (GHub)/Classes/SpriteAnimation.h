@@ -1,4 +1,4 @@
-// a class used for animating a sprite sheet
+// a class used for animating a sprite sheet manually
 #pragma once
 
 #include "cocos/2d/CCSprite.h"
@@ -45,6 +45,12 @@ namespace OOP
 		// sets the primitves for the animation frame. These primitives will be turned on when the animation frame is viewable, and off when it isn't.
 		void setPrimitives(std::vector<OOP::Primitive *> & newPrims);
 
+		// adds a primitive to the animation
+		void addPrimitive(OOP::Primitive * prim);
+
+		// removes a primitive from the animation
+		void removePrimitive(const OOP::Primitive * prim);
+
 		// gets the primitives tied to the animation frame.
 		std::vector<OOP::Primitive *> & getPrimitives();
 
@@ -58,7 +64,7 @@ namespace OOP
 		
 		float delayUnits; // the delay units (in milliseconds) between this frame and the following frame.
 		
-		std::vector<OOP::Primitive *> prims;
+		std::vector<OOP::Primitive *> prims; // vector of primitives, used for collisions. We did not end up using it in the final game.
 
 	protected:
 
@@ -123,14 +129,14 @@ namespace OOP
 
 		// sets the speed of the animation. If this is less than 0, then the speed is set to '1'.
 		void setSpeed(float speed);
-		
+
+
 		// sets the opacity of the animation as a decimal percentage (cocos does it as a fraction of 255, but this function handles it based on a decimal number)
 		// If given a number less than 0.0, the opacity is set to 0.0. IF given an opacity greater than 1.0 (i.e. 100%), the opacity is set to 1.0.
-		// void setOpacity(float opacity);
+		void setOpacity(float opacity);
 
 		// returns the opacity of the whole animation out of 1.0 (i.e. 100%). If a srite frame has had its opacity changed individually, then that sprite frame's opacity should be checked instead.
-		// float getOpacity();
-
+		float getOpacity();
 
 		// flips the animation on the x-axis if a 'true' is passed.
 		// unflips the animation if a 'false' is passed.
@@ -140,7 +146,7 @@ namespace OOP
 		void setFlippedAnimationX();
 
 		// checks to see if the animation is flipped on the x-axis.
-		bool getFlippedAnimationX();
+		bool getFlippedAnimationX()const;
 
 		// flips the animation on the y-axis if a 'true' is passed.
 		// unflips the animation if a 'false' is passed.
@@ -150,7 +156,7 @@ namespace OOP
 		void setFlippedAnimationY();
 
 		// checks to see if the animation is flipped on the y-axis.
-		bool getFlippedAnimationY();
+		bool getFlippedAnimationY() const;
 
 
 
@@ -168,7 +174,11 @@ namespace OOP
 
 		// if true, the original frame (frame 1) is restored once the animation finishes.
 		void setRestoreOriginalFrame(bool restoreFrame1);
+
+		// flips around the vector so that the animation will play the frames in reverse.
+		void reverse();
 	
+
 		// returns the sprite sheet.
 		cocos2d::Sprite * getSpriteSheet() const;
 
@@ -220,8 +230,9 @@ namespace OOP
 		// starts running an animation from its beginning.
 		void runAnimation();
 		
-		// stops an animation. This returns the animation back to its start.
-		void stopAnimation();
+		// stops an animation.
+		// This returns the animation back to its start if 'restoreF1' is true, and keeps it at it's final frame if 'restoreF1' is false, acting as if the animation finished.
+		void stopAnimation(bool restoreF1 = true);
 
 		// pauses an animation.
 		void pauseAnimation();
@@ -236,18 +247,18 @@ namespace OOP
 		cocos2d::Sprite * spriteSheet; // the sprite sheet.
 		std::vector<OOP::SpriteSheetAnimationFrame *> frames; // the frames of the animation.
 
-		unsigned int totalLoops = 0; // how many times the animation loops
-		unsigned int finishedLoops = 0; // the amount 
-		bool infiniteLoop = true; // determines if the animation loops infinitely. If so, then 'getLoops' will be 0.
+		unsigned int totalLoops = 0; // how many times the animation loops.
+		unsigned int finishedLoops = 0; // the amount of finished loops.
+		bool infiniteLoop = true; // determines if the animation loops infinitely. If so, then 'getLoops()' will return 0.
 		
 		
 
 		float delayUnits = 0.0F; // the amount of delay units for all frames. This is set to 0 if each frame has its own delayUnits.
 		float speed = 1.0F; // the speed of the animation. It cannot be below or equal to zero.
-		bool sharedDelay = false; // deterimes whether all sprites share a delay.
+		bool sharedDelay = false; // determines whether all sprite frames share a delay (i.e. they're on the screen for the same amount of time).
 		bool restoreOriginalFrame = true; // determines whether to restore the first frame of animation or not.
-		bool flipX = false; // saves whether to flip the animation on the x-axis.
-		bool flipY = false; // saves whether to flip the animation on the y-axis.
+		bool flipX = false; // saves whether to flip the animation on the x-axis or not.
+		bool flipY = false; // saves whether to flip the animation on the y-axis or not.
 
 		std::string name = ""; // a name for the animation.
 		std::string description = ""; // a description for the animation.

@@ -1,6 +1,7 @@
 // Stores utility functions
 #include "cocos2d.h"
 #include <string>
+#include <vector>
 
 using namespace cocos2d;
 
@@ -24,6 +25,31 @@ namespace ustd
 
 	// checks to see if a string is a decimal, which would be a float or double. However, it is validated under the assumption it will become a double.
 	bool isDecimal(std::string str);
+
+	template<typename T>
+	void addToVector(std::vector<T *> & vector, T * val) // adds an element to a pointer vector if it isn't already in there.
+	{
+		for (T * item : vector)
+		{
+			if (item == val)
+				return;
+		}
+
+		vector.push_back(val);
+	}
+
+	template<typename T>
+	void removeFromVector(std::vector<T *> & vector, T * val) // removes an element from a vector.
+	{
+		for (int i = 0; i < vector.size(); i++)
+		{
+			if (vector.at(i) == val) // if the pointer has been found.
+			{
+				vector.erase(vector.begin() + i);
+				return;
+			}
+		}
+	}
 }
 
 

@@ -1,13 +1,16 @@
 /*
 * Project: Object Oriented Programming - Final Project - PAC-MAN
-* Date: 03/16/2019
 * Group Members:
 	- Caleb Birnie (100699828)
 	- Nathan Tuck (100708651)
 	- Roderick “R.J.” Montague (100701758)
 	- Ryan Burton (100707511)
 	- Tavis East (100702011)
+
+* Date: 04/05/2019
 */
+
+#include "PMG_GameplayScene.h"
 
 /****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
@@ -53,10 +56,10 @@ using namespace CocosDenshion;
 
 USING_NS_CC;
 
-static cocos2d::Size designResolutionSize = cocos2d::Size(480, 320);
+static cocos2d::Size designResolutionSize = cocos2d::Size(1160, 1000);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
-static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
-static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
+static cocos2d::Size mediumResolutionSize = cocos2d::Size(824, 568);
+static cocos2d::Size largeResolutionSize = cocos2d::Size(1160, 1000);
 
 AppDelegate::AppDelegate()
 {
@@ -129,7 +132,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
+	auto scene = PMG_GameplayScene::createScene();
+	// auto scene = HelloWorld::createScene();
 
     // run
     director->runWithScene(scene);

@@ -2,7 +2,7 @@
 
 
 
-PMG_MenuScene::PMG_MenuScene() : Scene(), mouse(OOP::MouseListener(this)) {}
+PMG_MenuScene::PMG_MenuScene() : Scene(), mouse(OOP::MouseListener(this)), keyboard(OOP::KeyboardListener(this)) {}
 
 Scene * PMG_MenuScene::createScene()
 {

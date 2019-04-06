@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MouseListener.h"
+#include "KeyboardListener.h"
 #include "cocos2d.h"
 
 using namespace cocos2d;
@@ -29,6 +30,7 @@ public:
 private:
 
 	OOP::MouseListener mouse;
+	OOP::KeyboardListener keyboard;
 
 protected:
 };
