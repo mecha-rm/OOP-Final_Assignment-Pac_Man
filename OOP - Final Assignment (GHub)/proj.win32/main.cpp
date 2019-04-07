@@ -1,6 +1,6 @@
 /*
 * Project: Object Oriented Programming - Final Project - PAC-MAN
-* Date: 03/16/2019
+* Date: 04/06/2019
 
 * Group Members: Assignment Group 6
 	- Caleb Birnie (100699828)
@@ -9,7 +9,6 @@
 	- Ryan Burton (100707511)
 	- Tavis East (100702011)
 
-* Description: the main source file.
 */
 
 /****************************************************************************

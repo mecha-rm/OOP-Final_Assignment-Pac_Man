@@ -1,3 +1,15 @@
+/*
+* Project: Object Oriented Programming - Final Project - PAC-MAN
+* Date: 04/06/2019
+
+* Group Members: Assignment Group 6
+	- Caleb Birnie (100699828)
+	- Nathan Tuck (100708651)
+	- Roderick “R.J.” Montague (100701758)
+	- Ryan Burton (100707511)
+	- Tavis East (100702011)
+
+*/
 #include "entities/Enemy.h"
 #include "Maze.h"
 
@@ -11,6 +23,8 @@ Vec2 entity::Enemy::playerPos = Vec2(0.0F, 0.0F); // the position of the player.
 // ghost determines what enemy to make. [1] = Blinky (Red), [2] = Pinky (Pink), [3] = Inky (Blue), [4] = Clyde (Orange)
 entity::Enemy::Enemy(unsigned short int ghost) : Entity(etag::enemy, "images/ghostN.png", 2.0F)
 {
+	OOP::SpriteSheetAnimation * tempAnime = nullptr;
+
 	frameSize = Rect(0.0F, 0.0F, 32.0F, 32.0F);
 	view = Maze::SQUARE_SIZE * 2;
 
@@ -18,21 +32,27 @@ entity::Enemy::Enemy(unsigned short int ghost) : Entity(etag::enemy, "images/gho
 	{
 	case 1: // Blinky (Red)
 		setName("Blinky");
+		setTexture("images/blinky.png");
+		WaitTimeMax = 4.0F;
 		break;
 
 	case 2: // Pinky (Pink)
 		setName("Pinky");
+		setTexture("images/pinky.png");
+		WaitTimeMax = 5.0F;
 		break;
 
 	case 3: // Inky (Blue)
 		setName("Inky");
+		setTexture("images/inky.png");
+		WaitTimeMax = 6.0F;
 		break;
 
 	case 4: // Clyde (Orange)
 	default:
 		setName("Clyde");
-		setTextureRect(frameSize);
-		WaitTimeMax = 5.0F;
+		setTexture("images/clyde.png");
+		WaitTimeMax = 7.0F;
 		break;
 	}
 
@@ -40,7 +60,6 @@ entity::Enemy::Enemy(unsigned short int ghost) : Entity(etag::enemy, "images/gho
 	setCollisionBody(new OOP::PrimitiveSquare(Vec2(frameSize.getMaxX() / 2.0F, frameSize.getMaxY() / 2.0F), 31.9F));
 	setMagnitude(350.0F);
 	waitTimer = WaitTimeMax;
-
 	moveRight = true;
 
 
@@ -63,7 +82,8 @@ void entity::Enemy::blueMode(bool bMode)
 	if (bMode)
 	{
 		setSpeed(0.5F); // makes the enemy slower
-		setTexture("images/ghostB.png");
+		setTexture("images/blueghost.png");
+		setTextureRect(frameSize);
 	}
 	else
 	{
@@ -73,20 +93,22 @@ void entity::Enemy::blueMode(bool bMode)
 		// identifies based on the name of the ghost.
 		if (ustd::equalsIgnoreCase(getName(), "Blinky"))
 		{
-			setTexture("images/ghostN.png");
+			setTexture("images/blinky.png");
 		}
 		else if (ustd::equalsIgnoreCase(getName(), "Pinky"))
 		{
-			setTexture("images/ghostN.png");
+			setTexture("images/pinky.png");
 		}
 		else if (ustd::equalsIgnoreCase(getName(), "Inky"))
 		{
-			setTexture("images/ghostN.png");
+			setTexture("images/inky.png");
 		}
 		else if (ustd::equalsIgnoreCase(getName(), "Clyde"))
 		{
-			setTexture("images/ghostN.png");
+			setTexture("images/clyde.png");
 		}
+
+		setTextureRect(frameSize);
 	}
 }
 
@@ -101,7 +123,15 @@ void entity::Enemy::update(float deltaTime)
 		waitTimer -= deltaTime;
 
 		if (waitTimer < 0.0F)
+		{
 			waitTimer = 0.0F;
+			if (inPen) // if they're in the pen, they're taken out of it.
+			{
+				setPositionY(getPositionY() + Maze::SQUARE_SIZE * 2.0F);
+				inPen = false;
+			}
+		}
+			
 		return;
 	}
 	
@@ -111,7 +141,6 @@ void entity::Enemy::update(float deltaTime)
 		// mazePos = Vec2(curPos.x / Maze::SQUARE_SIZE, curPos.y / Maze::SQUARE_SIZE);
 		setDirection(rand() % 4 + 1);
 
-		
 
 	}
 

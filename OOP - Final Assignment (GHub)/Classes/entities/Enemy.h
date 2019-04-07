@@ -1,3 +1,15 @@
+/*
+* Project: Object Oriented Programming - Final Project - PAC-MAN
+* Date: 04/06/2019
+
+* Group Members: Assignment Group 6
+	- Caleb Birnie (100699828)
+	- Nathan Tuck (100708651)
+	- Roderick “R.J.” Montague (100701758)
+	- Ryan Burton (100707511)
+	- Tavis East (100702011)
+
+*/
 #pragma once
 #include "entities/Entity.h"
 #include "Maze.h"
@@ -37,7 +49,7 @@ namespace entity
 		// the position of the player. Used for the A.I.
 		static Vec2 playerPos;
 
-		
+		bool inPen = true; // the ghost is in the pen.
 
 
 	private:

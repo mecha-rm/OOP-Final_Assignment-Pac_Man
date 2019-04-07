@@ -1,3 +1,15 @@
+/*
+* Project: Object Oriented Programming - Final Project - PAC-MAN
+* Date: 04/06/2019
+
+* Group Members: Assignment Group 6
+	- Caleb Birnie (100699828)
+	- Nathan Tuck (100708651)
+	- Roderick “R.J.” Montague (100701758)
+	- Ryan Burton (100707511)
+	- Tavis East (100702011)
+
+*/
 #include "entities/Player.h"
 
 // creates pac-man
@@ -13,6 +25,8 @@ entity::Player::Player() : entity::Entity(etag::player, "images/pacman.png", 3.0
 
 	// PAC-MAN's hitbox is slightly smaller than everyone else's so that we can seemlessly move through the cooridors
 	setCollisionBody(new OOP::PrimitiveSquare(Vec2(32.0F / 2.0F, 32.0F / 2.0F), 31.9F));
+
+
 }
 
 entity::Player::~Player() {}

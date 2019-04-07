@@ -1,3 +1,15 @@
+/*
+* Project: Object Oriented Programming - Final Project - PAC-MAN
+* Date: 04/06/2019
+
+* Group Members: Assignment Group 6
+	- Caleb Birnie (100699828)
+	- Nathan Tuck (100708651)
+	- Roderick “R.J.” Montague (100701758)
+	- Ryan Burton (100707511)
+	- Tavis East (100702011)
+
+*/
 #include "entities/Entity.h"
 #include "Utilities.h"
 
@@ -6,12 +18,60 @@ Size entity::Entity::winSize = Size::ZERO; // the size of the window
 
 entity::Entity::Entity(etag tag, std::string texture, float globalZOrder) : sprite(Sprite::create())
 {
+	OOP::SpriteSheetAnimation * tempAnime = nullptr;
+
 	imagePath = texture;
 	sprite->setTexture(texture);
 	sprite->setAnchorPoint(Vec2(0.5, 0.5)); // anchour point is the middle of the sprite
 	sprite->setGlobalZOrder(globalZOrder); // setting the global z order
 	sprite->setTag(tag);
 	// sprite->setTag(entity);
+
+	// making animations
+	// Up
+	tempAnime = new OOP::SpriteSheetAnimation(sprite, 0, true, 1.0F, true, true);
+	tempAnime->setTag(1);
+
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 0.0F, frameSize.getMaxY() * 0.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 1.0F, frameSize.getMaxY() * 0.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 2.0F, frameSize.getMaxY() * 0.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 3.0F, frameSize.getMaxY() * 0.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+
+	animations.push_back(tempAnime);
+	currentAnimation = tempAnime;
+
+	// Down
+	tempAnime = new OOP::SpriteSheetAnimation(sprite, 0, true, 1.0F, true, true);
+	tempAnime->setTag(2);
+
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 0.0F, frameSize.getMaxY() * 1.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 1.0F, frameSize.getMaxY() * 1.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 2.0F, frameSize.getMaxY() * 1.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 3.0F, frameSize.getMaxY() * 1.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+
+	animations.push_back(tempAnime);
+
+	// Left
+	tempAnime = new OOP::SpriteSheetAnimation(sprite, 0, true, 1.0F, true, true);
+	tempAnime->setTag(3);
+
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 0.0F, frameSize.getMaxY() * 2.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 1.0F, frameSize.getMaxY() * 2.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 2.0F, frameSize.getMaxY() * 2.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 3.0F, frameSize.getMaxY() * 2.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+
+	animations.push_back(tempAnime);
+
+	// Right
+	tempAnime = new OOP::SpriteSheetAnimation(sprite, 0, true, 1.0F, true, true);
+	tempAnime->setTag(4);
+
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 0.0F, frameSize.getMaxY() * 3.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 1.0F, frameSize.getMaxY() * 3.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 2.0F, frameSize.getMaxY() * 3.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+	tempAnime->add(new OOP::SpriteSheetAnimationFrame(Rect(frameSize.getMaxX() * 3.0F, frameSize.getMaxY() * 3.0F, frameSize.getMaxX(), frameSize.getMaxY())));
+
+	animations.push_back(tempAnime);
 }
 
 // releases the sprite 
@@ -273,18 +333,22 @@ void entity::Entity::setDirection(unsigned int direc, bool oneDirec)
 	{
 	case 1: // up
 		moveUp = true;
+		runAnimationByTag(1);
 		break;
 
 	case 2: // down
 		moveDown = true;
+		runAnimationByTag(2);
 		break;
 
 	case 3: // left
 		moveLeft = true;
+		runAnimationByTag(3);
 		break;
 
 	case 4: // right
 		moveRight = true;
+		runAnimationByTag(4);
 		break;
 	}
 }

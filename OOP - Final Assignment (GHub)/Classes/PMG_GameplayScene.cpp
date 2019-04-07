@@ -1,3 +1,15 @@
+/*
+* Project: Object Oriented Programming - Final Project - PAC-MAN
+* Date: 04/06/2019
+
+* Group Members: Assignment Group 6
+	- Caleb Birnie (100699828)
+	- Nathan Tuck (100708651)
+	- Roderick “R.J.” Montague (100701758)
+	- Ryan Burton (100707511)
+	- Tavis East (100702011)
+
+*/
 #include "PMG_GameplayScene.h"
 
 #include <iomanip>
@@ -185,6 +197,12 @@ void PMG_GameplayScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event * ev
 // creates the maze.
 void PMG_GameplayScene::createMaze(int level)
 {
+	if (level == 2)
+	{
+		AudioLibrary::bgm1.stop();
+		AudioLibrary::bgm2.play();
+	}
+	
 	maze->setLevel(level);
 	gameObjects = maze->generate(); // saves the game objects from the map.
 
@@ -211,7 +229,7 @@ void PMG_GameplayScene::createMaze(int level)
 	plyr->setSpawnPosition(maze->getPlayerSpawn()); // gets the spawn point of the player in the maze.
 	plyr->setPosition(maze->getPlayerSpawn());
 
-	plyr->setPosition(500.0F, 500.0F); // comment out later
+	// plyr->setPosition(500.0F, 500.0F); // comment out later
 	
 
 	// entity::Entity::winSize = director->getWinSizeInPixels(); // saves the window size
@@ -221,6 +239,8 @@ void PMG_GameplayScene::createMaze(int level)
 // goes to the next level
 void PMG_GameplayScene::nextLevel()
 {
+
+
 	level++;
 	dots = 0;
 
@@ -434,7 +454,20 @@ void PMG_GameplayScene::update(float deltaTime)
 
 	if (dots == 0)
 	{
-		nextLevel();
+		if (level >= TOTAL_LEVELS) // the end of the game has been reached
+		{
+			lifeLabel->setString("Finished!");
+		}
+		else
+		{
+			nextLevel();
+		}
+		return;
+	}
+
+	if (plyr->getLives() == 0)
+	{
+		lifeLabel->setString("Game Over!");
 		return;
 	}
 

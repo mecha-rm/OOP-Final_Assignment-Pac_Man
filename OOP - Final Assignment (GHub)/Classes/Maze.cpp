@@ -1,3 +1,15 @@
+/*
+* Project: Object Oriented Programming - Final Project - PAC-MAN
+* Date: 04/06/2019
+
+* Group Members: Assignment Group 6
+	- Caleb Birnie (100699828)
+	- Nathan Tuck (100708651)
+	- Roderick “R.J.” Montague (100701758)
+	- Ryan Burton (100707511)
+	- Tavis East (100702011)
+
+*/
 // creates a maze
 #include "Maze.h"
 
@@ -41,7 +53,8 @@ void Maze::loadData(std::string fileName)
 	bool added = false; // used to see if something was added or not.
 
 	bool hasPen = false; // used to check if there's a ghost pen.
-
+	int penRow = 0; // the row the pen is in
+	int penCol = 0; // the column the pen is in
 	
 	try
 	{
@@ -132,6 +145,8 @@ std::vector<entity::Entity *> Maze::generate()
 {
 	std::vector<entity::Entity *> gameObjects; // a vector of game objects
 	bool added = false; // becomes true if something was just added.
+	Vec2 position = Vec2(0.0F, 0.0F);
+
 
 	float tempWidth = 0.0F; // momentarily saves the height to check for the maze size
 	float tempHeight = 0.0F; // momentarily saves the width to check for the maze size
@@ -141,6 +156,8 @@ std::vector<entity::Entity *> Maze::generate()
 	{
 		for (int j = 0; j < COL_MAX; j++) // going through each column
 		{
+			position = Vec2(j * SQUARE_SIZE + SQUARE_SIZE / 2.0F, COL_MAX * SQUARE_SIZE - i * SQUARE_SIZE + SQUARE_SIZE / 2.0F);
+
 			/*
 			 * The maze map. The position is set opposite to how it appears in the array (e.g. row(0) is the top of the map, not the bottom.
 				* 0 - empty
@@ -172,7 +189,45 @@ std::vector<entity::Entity *> Maze::generate()
 				break;
 
 			case 4: // ghost pen, which is (5 X 4 squares)
+				// Vec2 pos;
 
+				// top
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * -2, SQUARE_SIZE * 2)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * -1, SQUARE_SIZE * 2)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * 0, SQUARE_SIZE * 2)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * 1, SQUARE_SIZE * 2)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * 2, SQUARE_SIZE * 2)));
+
+				// bottom
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * -2, SQUARE_SIZE * -2)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * -1, SQUARE_SIZE * -2)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * 0, SQUARE_SIZE * -2)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * 1, SQUARE_SIZE * -2)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * 2, SQUARE_SIZE * -2)));
+
+				// sides
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * -2, SQUARE_SIZE * -1)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * -2, SQUARE_SIZE * 0)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * -2, SQUARE_SIZE * 1)));
+
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * 2, SQUARE_SIZE * -1)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * 2, SQUARE_SIZE * 0)));
+				gameObjects.push_back(new entity::Block(position + Vec2(SQUARE_SIZE * 2, SQUARE_SIZE * 1)));
+
+				// making the ghosts
+
+				gameObjects.push_back(new entity::Enemy(1));
+				gameObjects.at(gameObjects.size() - 1)->setPosition(position.x, position.y + SQUARE_SIZE * 3.0F);
+				gameObjects.push_back(new entity::Enemy(2));
+				gameObjects.at(gameObjects.size() - 1)->setPosition(position.x, position.y);
+				gameObjects.push_back(new entity::Enemy(3));
+				gameObjects.at(gameObjects.size() - 1)->setPosition(position.x - SQUARE_SIZE, position.y);
+				gameObjects.push_back(new entity::Enemy(4));
+				gameObjects.at(gameObjects.size() - 1)->setPosition(position.x + SQUARE_SIZE, position.y);
+
+
+
+				// gameObjects.push_back(new entity::Block((Vec2(j * SQUARE_SIZE + SQUARE_SIZE / 2.0F, COL_MAX * SQUARE_SIZE - i * SQUARE_SIZE + SQUARE_SIZE / 2.0F)));
 
 				break;
 
@@ -207,7 +262,8 @@ std::vector<entity::Entity *> Maze::generate()
 
 			if (added) // if the item was added, its position is set
 			{
-				gameObjects.at(gameObjects.size() - 1)->setPosition(Vec2(j * SQUARE_SIZE + SQUARE_SIZE / 2.0F, COL_MAX * SQUARE_SIZE - i * SQUARE_SIZE + SQUARE_SIZE / 2.0F));
+				// gameObjects.at(gameObjects.size() - 1)->setPosition(Vec2(j * SQUARE_SIZE + SQUARE_SIZE / 2.0F, COL_MAX * SQUARE_SIZE - i * SQUARE_SIZE + SQUARE_SIZE / 2.0F));
+				gameObjects.at(gameObjects.size() - 1)->setPosition(position);
 				gameObjects.at(gameObjects.size() - 1)->setSpawnPosition(gameObjects.at(gameObjects.size() - 1)->getPosition());
 
 				// gets the potential new height/width of the maze.

@@ -1,3 +1,15 @@
+/*
+* Project: Object Oriented Programming - Final Project - PAC-MAN
+* Date: 04/06/2019
+
+* Group Members: Assignment Group 6
+	- Caleb Birnie (100699828)
+	- Nathan Tuck (100708651)
+	- Roderick “R.J.” Montague (100701758)
+	- Ryan Burton (100707511)
+	- Tavis East (100702011)
+
+*/
 #pragma once
 
 #include "KeyboardListener.h"
@@ -65,7 +77,7 @@ private:
 	// used to turn on/off 'blue mode'
 	bool blueMode = false;
 	float blueModeTimer = 0.0F; // counts down to the end of blue mode.
-	const float BLUE_MODE_DURATION = 1.0F; // how long 'blue mode' lasts for.
+	const float BLUE_MODE_DURATION = 7.0F; // how long 'blue mode' lasts for.
 
 	// the drawNode used to draw the maze. Move the draw node to move all of the assets on the maze.
 	cocos2d::DrawNode * gamePane;
@@ -79,8 +91,8 @@ private:
 
 
 	Maze * maze; // the level information
-	unsigned int level = 0; // the maze loaded up.
-	const unsigned int TOTAL_LEVELS = 2; // the amount of levels in the game.
+	unsigned int level = 1; // the maze loaded up.
+	const unsigned int TOTAL_LEVELS = 3; // the amount of levels in the game.
 
 	entity::Player * plyr; // the player object
 	
