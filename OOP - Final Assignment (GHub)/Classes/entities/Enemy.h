@@ -1,5 +1,6 @@
 #pragma once
 #include "entities/Entity.h"
+#include "Maze.h"
 
 namespace entity
 {
@@ -18,11 +19,26 @@ namespace entity
 
 		~Enemy();
 
+		// makes the enemy stall for a predetermined amount of time.
+		void wait();
+
+		// makes the enemy stall for (x) amount of time
+		void wait(float time);
+		
+		// called to indiciate if blue mode is on or off.
+		void blueMode(bool bMode);
+
 		// update loop
 		void update(float deltaTime);
 
+		
+		// static Maze * maze;
+
 		// the position of the player. Used for the A.I.
 		static Vec2 playerPos;
+
+		
+
 
 	private:
 
@@ -30,6 +46,9 @@ namespace entity
 		// void move();
 
 		float view = 0.0F;
+
+		float waitTimer = 0.0F; // must countdown to '0' before the enemy can move
+		float WaitTimeMax = 2.0F; // the amount of time the enemy must wait.
 
 	protected:
 

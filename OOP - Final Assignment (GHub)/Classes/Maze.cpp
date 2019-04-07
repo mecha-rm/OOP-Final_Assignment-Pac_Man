@@ -3,25 +3,43 @@
 
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 const float Maze::SQUARE_SIZE = 32.0F;
 
+Maze::Maze() : Maze(0) {}
+
 // constructor
 Maze::Maze(unsigned int level)
+{
+	setLevel(level);
+}
+
+// changes the level
+void Maze::setLevel(unsigned int level)
 {
 	// loads in a level file.
 	switch (level)
 	{
 	case 1:
-		loadData("data/level_01.txt");
+		loadData("levels/level_01.txt");
+		break;
+	case 2:
+		loadData("levels/level_02.txt");
+		break;
 	}
 }
 
-// loads the file data
+// loads the level data
 void Maze::loadData(std::string fileName)
 {
 	std::ifstream file(fileName, std::ios::in); // opens up the file
-	
+	std::string str;
+
+	int rowNum = 0;
+	int colNum = 0;
+	bool added = false; // used to see if something was added or not.
+
 	bool hasPen = false; // used to check if there's a ghost pen.
 
 	
@@ -29,8 +47,6 @@ void Maze::loadData(std::string fileName)
 	{
 		if (!file)
 			throw "Error accessing file. Default area loaded.";
-
-		
 	}
 	catch (const char * ex)
 	{
@@ -38,33 +54,72 @@ void Maze::loadData(std::string fileName)
 		return; // leaves default values in maze.
 	}
 
-	// goes through and deletes all instances of the ghost pen.
-	for (int i = 0; i < ROW_MAX; i++) // going through each row
+
+	rowNum = 0;
+	colNum = 0;
+
+	while (file.is_open() && !file.eof())
 	{
-		for (int j = 0; j < COL_MAX; j++) // going through each column
+		std::getline(file, str); // gets a line of the file.
+
+		for (int k = 0; k < str.length(); k++)
 		{
-			if (hasPen == true) // if one pen has already been found
+			if (ustd::isInt(str.substr(k, 1))) // if the character is an integer.
 			{
-				map[i][j] = 0;
-				continue;
-			}
+				map[rowNum][colNum] = std::stoi(str.substr(k, 1)); // gets hte string as an integer.
+				colNum++;
 
+				if (colNum >= COL_MAX) // if all columns for the row have been filled.
+					break;
 
-			for (int row = 2; row >= -2; row++) // clears out 2 rows above and below of the pen to make room
-			{
-				for (int col = 2; col >= -2; col++) // clears out 2 columns left and right the pen
-				{
-					// if the index goes beyond the indexes of the array, the loop continues.
-					if (i + col >= COL_MAX || i + col <= 0 || j + row >= ROW_MAX || j + row <= 0)
-						continue;
-
-					map[i + col][j + row] = 0; // sets the index to 0.
-					hasPen = true; // the ghostpen has been found.
-
-				}
+				added = true; // knows that something has been added to the row
 			}
 		}
+
+		str.clear();
+
+		if(added) // if a block has been added to the row, then move onto the next.
+			rowNum++;
+
+		if (rowNum >= ROW_MAX) // if all rows have been filled, information from the file is no longer read.
+			break;
+
+		added = false;
+		colNum = 0;
 	}
+
+	rowNum = 0;
+	colNum = 0;
+	
+	file.close();
+
+	//// goes through and deletes all instances of the ghost pen.
+	//for (int i = 0; i < ROW_MAX; i++) // going through each row
+	//{
+	//	for (int j = 0; j < COL_MAX; j++) // going through each column
+	//	{
+	//		if (hasPen == true) // if one pen has already been found
+	//		{
+	//			map[i][j] = 0;
+	//			continue;
+	//		}
+
+
+	//		for (int row = 2; row >= -2; row++) // clears out 2 rows above and below of the pen to make room
+	//		{
+	//			for (int col = 2; col >= -2; col++) // clears out 2 columns left and right the pen
+	//			{
+	//				// if the index goes beyond the indexes of the array, the loop continues.
+	//				if (i + col >= COL_MAX || i + col <= 0 || j + row >= ROW_MAX || j + row <= 0)
+	//					continue;
+
+	//				map[i + col][j + row] = 0; // sets the index to 0.
+	//				hasPen = true; // the ghostpen has been found.
+
+	//			}
+	//		}
+	//	}
+	//}
 	
 
 }
@@ -77,6 +132,10 @@ std::vector<entity::Entity *> Maze::generate()
 {
 	std::vector<entity::Entity *> gameObjects; // a vector of game objects
 	bool added = false; // becomes true if something was just added.
+
+	float tempWidth = 0.0F; // momentarily saves the height to check for the maze size
+	float tempHeight = 0.0F; // momentarily saves the width to check for the maze size
+	
 
 	for (int i = 0; i < ROW_MAX; i++) // going through each row
 	{
@@ -149,13 +208,29 @@ std::vector<entity::Entity *> Maze::generate()
 			if (added) // if the item was added, its position is set
 			{
 				gameObjects.at(gameObjects.size() - 1)->setPosition(Vec2(j * SQUARE_SIZE + SQUARE_SIZE / 2.0F, COL_MAX * SQUARE_SIZE - i * SQUARE_SIZE + SQUARE_SIZE / 2.0F));
+				gameObjects.at(gameObjects.size() - 1)->setSpawnPosition(gameObjects.at(gameObjects.size() - 1)->getPosition());
+
+				// gets the potential new height/width of the maze.
+				tempWidth = j * SQUARE_SIZE + SQUARE_SIZE;
+				tempHeight = i * SQUARE_SIZE + SQUARE_SIZE;
+
+				if (tempWidth > width) // new width
+					width = tempWidth;
+				
+				if (tempHeight > height) // new height
+					height = tempHeight;
+
 			}
 
 			added = false; // reset for next loop
+			tempWidth = 0.0F;
+			tempHeight = 0.0F;
 
 		}
 	}
 
+	// sets the size of the maze
+	entity::Entity::winSize = Size(width, height);
 
 	return gameObjects;
 }

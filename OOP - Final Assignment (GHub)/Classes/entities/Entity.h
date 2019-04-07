@@ -86,6 +86,8 @@ namespace entity
 		// sets the spawn position
 		void setSpawnPosition(Vec2 spawn);
 
+		// called ot make the entity go back to the spawn position.
+		void returnToSpawnPosition();
 
 		// Sets the sprite's opacity via a percentage. Use a value from 0.0 to 1.0, with 1.0 (i.e. 100%) being full opacity.
 		// Opacity for sprites are out of 255, but this function works on percentages.

@@ -32,6 +32,10 @@ unsigned int entity::Player::getLives() { return lives; }
 // sets hte amount of lives the player has.
 void entity::Player::setLives(unsigned int lifeCount) { lives = lifeCount; }
 
+void entity::Player::blueMode(bool bMode)
+{
+}
+
 // has the player lose a life.
 void entity::Player::kill()
 {

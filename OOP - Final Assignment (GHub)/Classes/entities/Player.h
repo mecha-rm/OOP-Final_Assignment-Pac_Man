@@ -25,6 +25,9 @@ namespace entity
 		// sets the amount of lives the player has.
 		void setLives(unsigned int lifeCount);
 
+		// called to indiciate if blue mode is on or off.
+		void blueMode(bool bMode);
+
 		// called to make the player lose a life. Nothing happens if the player has no lives left.
 		void kill();
 
